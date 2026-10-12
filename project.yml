@@ -1,0 +1,83 @@
+name: FinderOpenIn
+options:
+  bundleIdPrefix: io.github.joemrk
+  deploymentTarget:
+    macOS: "15.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    DEVELOPMENT_TEAM: 78K254QW6P
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: Apple Development
+    PROVISIONING_PROFILE_SPECIFIER: ""
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  FinderOpenIn:
+    type: application
+    platform: macOS
+    sources:
+      - App
+      - Shared
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Finder Open In
+        LSUIElement: true
+        CFBundleURLTypes:
+          - CFBundleURLName: io.github.joemrk.FinderOpenIn
+            CFBundleURLSchemes:
+              - finderopenin
+    entitlements:
+      path: App/App.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - 78K254QW6P.io.github.joemrk.FinderOpenIn
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.joemrk.FinderOpenIn
+    dependencies:
+      - target: FinderExtension
+  FinderExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - FinderExtension
+      - Shared
+    info:
+      path: FinderExtension/Info.plist
+      properties:
+        CFBundleDisplayName: Finder Open In
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.FinderSync
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).FinderSync
+          NSExtensionAttributes: {}
+    entitlements:
+      path: FinderExtension/FinderExtension.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.application-groups:
+          - 78K254QW6P.io.github.joemrk.FinderOpenIn
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.joemrk.FinderOpenIn.FinderExtension
+  FinderOpenInTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests
+      - Shared
+      - App/CommandRunner.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.joemrk.FinderOpenInTests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  FinderOpenIn:
+    build:
+      targets:
+        FinderOpenIn: all
+    test:
+      targets:
+        - FinderOpenInTests
