@@ -4,6 +4,9 @@ A macOS app that adds "Open in <IDE>" items to the Finder context menu. Each
 item is a command from a JSON config that receives the path of the selected
 item or of the current folder.
 
+<img width="321" height="562" alt="image" src="https://github.com/user-attachments/assets/f3b98923-0eda-46cd-a299-6c3a5d4fe83a" />
+
+
 ## Features
 
 - **Finder menu** for a selected file or folder and for the folder background.
